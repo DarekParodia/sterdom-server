@@ -1,0 +1,5 @@
+{
+    "php_folder": "views/pages",
+    "php_partials": "views/partials",
+    "public_folder": "public"
+}

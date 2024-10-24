@@ -1,0 +1,20 @@
+{
+  "name": "nodebooootsrap",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "boostrap": "^2.0.0",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "express": "^4.21.1",
+    "jquery": "^3.7.1",
+    "php-express": "^0.0.3"
+  }
+}
