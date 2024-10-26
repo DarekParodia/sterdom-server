@@ -1,0 +1,24 @@
+{
+    "0": {
+        "name": "CO",
+        "id": "co",
+        "display_function": "basicTempDisplay",
+        "data_fields": {
+            "0": {
+                "sensor_id": "co",
+                "sendor_data": "data"
+            }
+        }
+    },
+    "1": {
+        "name": "CWU",
+        "id": "cwu",
+        "display_function": "basicTempDisplay",
+        "data_fields": {
+            "0": {
+                "sensor_id": "cwu",
+                "sendor_data": "data"
+            }
+        }
+    }
+}

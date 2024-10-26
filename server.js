@@ -1,9 +1,12 @@
 const config = require('./config.json');
 const fs = require('fs');
+const websocketManager = require('./websockets.js');
 
 var path = require('path');
 var express = require('express');
 var app = express();
+var expressWs = require('express-ws')(app);
+
 var phpExpress = require('php-express')({
     binPath: 'php'
 });
@@ -57,6 +60,8 @@ app.all('*', (req, res) => {
         next(error);
     }
 });
+
+app.ws('/', websocketManager.appFunc);
 
 var server = app.listen(3000, function () {
     var host = server.address().address;

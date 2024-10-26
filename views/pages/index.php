@@ -1,5 +1,5 @@
 <?php
-require_once('../partials/numeral/temp.php')
+require_once('../partials/display/display_utilities.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,10 +25,7 @@ require_once('../partials/numeral/temp.php')
                         <h3>Temperatury</h3>
 
                         <div class="d-flex flex-row">
-
-                            <?php echo basicTempDisplay('temp_co', "CO"); ?>
-                            <?php echo basicTempDisplay('temp_cwu', "CWU"); ?>
-
+                            <?php echo parseLayout("../../layout.json"); ?>
                         </div>
 
                         <!-- <p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag wolf squid tote bag. Tote bag cronut semiotics, raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics ugh synth chillwave meditation. Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella DIY 90's blog.</p>
