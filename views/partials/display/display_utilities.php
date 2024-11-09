@@ -1,8 +1,8 @@
 <?php
 require_once('display_functions.php');
-function callDisplayFunction(string $function, string $id, string $name): string
+function callDisplayFunction(string $function, string $id, string $name, array $data = array()): string
 {
-    return $function($id, $name);
+    return $function($id, $name, $data);
 }
 
 function parseLayout($layout_path): string
@@ -15,7 +15,23 @@ function parseLayout($layout_path): string
         $name = $json[$i]['name'];
         $id = $json[$i]['id'];
         $function = $json[$i]['display_function'];
-        $output = $output . callDisplayFunction($function, $id, $name);
+
+        $data_array = array();
+
+        foreach ($json[$i]['data_fields'] as &$el) {
+            $d = "";
+
+            if (!empty($el['text'])) {
+                $d .= $el['text'];
+            }
+
+            if (!empty($el['sensor_id']) && !empty($el['sensor_id'])) {
+                $d .= getDataPlaceholder($el['sensor_id'], $el['sensor_data']);
+            }
+            $data_array[] = $d;
+        }
+
+        $output = $output . callDisplayFunction($function, $id, $name, $data_array);
     }
     return $output;
 }

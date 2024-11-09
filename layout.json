@@ -5,8 +5,13 @@
         "display_function": "basicTempDisplay",
         "data_fields": {
             "0": {
+                "text": "tex",
                 "sensor_id": "co",
-                "sendor_data": "data"
+                "sensor_data": "data"
+            },
+            "1": {
+                "sensor_id": "co",
+                "sensor_data": "time"
             }
         }
     },
@@ -17,7 +22,11 @@
         "data_fields": {
             "0": {
                 "sensor_id": "cwu",
-                "sendor_data": "data"
+                "sensor_data": "data"
+            },
+            "1": {
+                "sensor_id": "cwu",
+                "sensor_data": "time"
             }
         }
     }

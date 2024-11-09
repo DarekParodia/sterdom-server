@@ -19,7 +19,7 @@ class Fetcher {
     }
 }
 
-class TempFetcher extends Fetcher {
+class NumberFetcher extends Fetcher {
     constructor(host, ids, cooldown, callback = (dataID, data) => { }) {
         super(ids, cooldown, callback);
         this.host = host;
