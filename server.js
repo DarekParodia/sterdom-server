@@ -5,7 +5,8 @@ const websocketManager = require('./websockets.js');
 var path = require('path');
 var express = require('express');
 var app = express();
-var expressWs = require('express-ws')(app);
+var wsApp = express();
+var expressWs = require('express-ws')(wsApp);
 
 var phpExpress = require('php-express')({
     binPath: 'php'
@@ -35,6 +36,11 @@ app.get('/', (req, res) => {
 })
 
 app.all('*', (req, res) => {
+    // Exclude WebSocket routes
+    if (req.path.startsWith('/.websocket')) {
+        return next();
+    }
+
     // get php file based on requested path
     let phpFile = req.path.replace(/^\//, '');
 
@@ -61,9 +67,17 @@ app.all('*', (req, res) => {
     }
 });
 
-app.ws('/', websocketManager.appFunc);
+wsApp.ws('/', function (ws, req) {
+    websocketManager.appFunc(ws, req);
+});
 
-var server = app.listen(3000, function () {
+const websocketServer = wsApp.listen(config.websocket_port, function () {
+    var host = websocketServer.address().address;
+    var port = websocketServer.address().port;
+    console.log('Websocket app listening at http://%s:%s', host, port);
+});
+
+const server = app.listen(config.webserver_port, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log('PHPExpress app listening at http://%s:%s', host, port);

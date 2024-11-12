@@ -5,13 +5,15 @@
         "display_function": "basicTempDisplay",
         "data_fields": {
             "0": {
-                "text": "tex",
+                "text": "CO: ",
                 "sensor_id": "co",
-                "sensor_data": "data"
+                "sensor_data": "data",
+                "placeholder_function": "getDataPlaceholder"
             },
             "1": {
                 "sensor_id": "co",
-                "sensor_data": "time"
+                "sensor_data": "time",
+                "placeholder_function": "getDataPlaceholder"
             }
         }
     },

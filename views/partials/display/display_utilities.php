@@ -19,14 +19,21 @@ function parseLayout($layout_path): string
         $data_array = array();
 
         foreach ($json[$i]['data_fields'] as &$el) {
+            $ph_function = $el['placeholder_function'];
             $d = "";
+
+            if (!function_exists($ph_function)) {
+                $ph_function = function ($_sid, $_did): string {
+                    return getDataPlaceholder($_sid, $_did);
+                };
+            }
 
             if (!empty($el['text'])) {
                 $d .= $el['text'];
             }
 
             if (!empty($el['sensor_id']) && !empty($el['sensor_id'])) {
-                $d .= getDataPlaceholder($el['sensor_id'], $el['sensor_data']);
+                $d .= $ph_function($el['sensor_id'], $el['sensor_data']);
             }
             $data_array[] = $d;
         }

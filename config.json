@@ -1,4 +1,6 @@
 {
+    "webserver_port": 3000,
+    "websocket_port": 33333,
     "php_folder": "views/pages",
     "php_partials": "views/partials",
     "public_folder": "public"

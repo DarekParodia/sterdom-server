@@ -9,7 +9,7 @@ require_once('../partials/display/display_utilities.php')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sterdom</title>
     <?php require_once('../partials/head.php') ?>
-    <script type="module" src="/js/temp_updater.js"></script>
+    <script type="module" src="/js/data_updater.js"></script>
 </head>
 
 <body>
