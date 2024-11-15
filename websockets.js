@@ -1,3 +1,4 @@
+const sensors = require('./sensors.js')
 const clients = [];
 
 class Client {
@@ -34,11 +35,3 @@ export function appFunc(ws, req) {
     });
     clients.push(new Client(ws));
 }
-
-// export function broadcast(dataID, data) {
-//     clients.forEach(client => {
-//         if (client.readyState === WebSocket.OPEN) {
-//             client.send(JSON.stringify({ id: dataID, content: data }));
-//         }
-//     });
-// }

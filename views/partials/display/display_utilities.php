@@ -19,10 +19,15 @@ function parseLayout($layout_path): string
         $data_array = array();
 
         foreach ($json[$i]['data_fields'] as &$el) {
-            $ph_function = $el['placeholder_function'];
+            $ph_function = "";
+
+            if (array_key_exists('placeholder_function', $el)) {
+                $ph_function =  $el['placeholder_function'];
+            }
+
             $d = "";
 
-            if (!function_exists($ph_function)) {
+            if (!function_exists((string) $ph_function)) {
                 $ph_function = function ($_sid, $_did): string {
                     return getDataPlaceholder($_sid, $_did);
                 };
