@@ -2,6 +2,11 @@ node_modules
 node_modules/
 node_modules/*
 
+db.json
+db
+db/
+db/*
+
 ./#server.js#
 /#server.js#
 ./bun.lockb

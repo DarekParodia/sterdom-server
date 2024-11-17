@@ -5,26 +5,9 @@
         "type": "http",
         "cooldown": 5000,
         "host": "192.168.1.208",
-        "data_points": {
-            "0": {
-                "name": "co",
-                "id": "co",
-                "type": "number"
-            },
-            "1": {
-                "name": "cwu",
-                "id": "cwu",
-                "type": "number"
-            }
-        }
-    },
-    "1": {
-        "name": "kotlownia",
-        "id": "kotlownia",
-        "type": "http",
-        "cooldown": 5000,
-        "host": "192.168.1.208",
-        "data_points": {
+        "path": "/",
+        "port": 80,
+        "datapoints": {
             "0": {
                 "name": "co",
                 "id": "co",
