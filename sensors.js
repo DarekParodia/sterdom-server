@@ -46,22 +46,26 @@ class Sensor {
         switch (this.type) {
             case "http":
                 const options = {
-                    host: 'somesite.com',
-                    port: 443,
-                    path: '/some/path',
+                    host: this.host,
+                    port: this.port,
+                    path: this.path,
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }
                 rest.getHttp(options, (status, result) => {
-
+                    this.dataParse(result);
                 })
                 break;
             default:
                 logger.error("Wrong Sennsor comunication type:", this.type)
                 break;
         }
+    }
+
+    async dataParse(data) {
+
     }
 }
 
