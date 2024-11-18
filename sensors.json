@@ -11,12 +11,14 @@
             "0": {
                 "name": "co",
                 "id": "co",
-                "type": "number"
+                "type": "number",
+                "dbttl": 0
             },
             "1": {
                 "name": "cwu",
                 "id": "cwu",
-                "type": "number"
+                "type": "number",
+                "dbttl": 0
             }
         }
     }

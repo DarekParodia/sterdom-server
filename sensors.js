@@ -3,11 +3,27 @@ const sensorsFile = require('./sensors.json');
 const rest = require('./rest.js')
 const sensors = [];
 
+class Data {
+    constructor(data) {
+        this.data = data;
+        this.time = new Date();
+    }
+}
 class DataPoint {
-    constructor(name, id, type) {
+    constructor(name, id, type, dbttl) {
         this.name = name;
         this.id = id;
         this.type = type;
+        this.dbttl = dbttl;
+        this.currentlyRequested = false;
+    }
+
+    async dataParse(data) {
+
+    }
+
+    async update() {
+
     }
 }
 
@@ -20,6 +36,7 @@ class Sensor {
         this.host = host;
         this.path = path;
         this.port = port;
+        this.autofetch = false;
         this.datapoints = [];
         this.parseDataPoints(datapoints);
     }
@@ -33,27 +50,39 @@ class Sensor {
                 const datapIndx = this.datapoints.findIndex(e => e.id === el.id);
                 if (datapIndx < 0) {
                     // object doesn't exist yet
-                    this.datapoints.push(new DataPoint(el.name, el.id, el.type));
+                    this.datapoints.push(new DataPoint(el.name, el.id, el.type, el.dbttl));
                 } else {
                     logger.warn(`Multiple DataPoints with same ID! Using first mentioned. ID: ${el.id}`);
                 }
             }
         }
-        console.log(this.datapoints);
+
+
+        this.datapoints.forEach((el) => {
+            if (el.dbttl != 0) {
+                // data has to be stored in database so we have to fetch it according to cooldown
+                this.autofetch = true;
+            }
+        })
+
+        if (this.autofetch) {
+            setTimeout(this.fetch.bind(this), this.cooldown);
+        }
     }
 
     async fetch() {
+        const options = {
+            host: this.host,
+            port: this.port,
+            path: this.path,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
         switch (this.type) {
             case "http":
-                const options = {
-                    host: this.host,
-                    port: this.port,
-                    path: this.path,
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
                 rest.getHttp(options, (status, result) => {
                     this.dataParse(result);
                 })
@@ -62,10 +91,17 @@ class Sensor {
                 logger.error("Wrong Sennsor comunication type:", this.type)
                 break;
         }
+
+        if (this.autofetch) {
+            setTimeout(this.fetch.bind(this), this.cooldown);
+        }
     }
 
     async dataParse(data) {
-
+        console.log("parsing data: ", data);
+        for (let i = 0; i < data.length; i++) {
+            this.datapoints[i].dataParse(data[i]);
+        }
     }
 }
 
@@ -87,4 +123,16 @@ async function parseSensors() {
 
 parseSensors();
 
-export function a() { };
+export function setRequestedData(requestedData) {
+    // reset first
+    sensors.forEach((sensor) => {
+        sensor.datapoints.forEach((datapoint) => {
+            datapoint.currentlyRequested = false;
+        })
+    })
+
+    requestedData.forEach((el) => {
+
+    })
+    console.log(requestedData);
+};

@@ -13,8 +13,8 @@ var phpExpress = require('php-express')({
 });
 
 // set view engine to php-express
-app.set('views', path.join(__dirname, config.php_folder));
 app.engine('php', phpExpress.engine);
+app.set('views', path.join(__dirname, config.php_folder));
 app.set('view engine', 'php');
 
 app.all(/.+\.php$/, phpExpress.router);
@@ -68,7 +68,7 @@ app.all('*', (req, res) => {
 });
 
 wsApp.ws('/', function (ws, req) {
-    websocketManager.appFunc(ws, req);
+    websocketManager.setupWebsocketExpress(ws, req);
 });
 
 const websocketServer = wsApp.listen(config.websocket_port, function () {
