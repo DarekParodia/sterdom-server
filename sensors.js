@@ -1,14 +1,9 @@
 const { logger } = require('./logger.js');
 const sensorsFile = require('./sensors.json');
 const rest = require('./rest.js')
+const websocketManager = require('./websockets.js');
 const sensors = [];
 
-class Data {
-    constructor(data) {
-        this.data = data;
-        this.time = new Date();
-    }
-}
 class DataPoint {
     constructor(name, id, type, dbttl) {
         this.name = name;
@@ -16,9 +11,11 @@ class DataPoint {
         this.type = type;
         this.dbttl = dbttl;
         this.currentlyRequested = false;
+        this.requestedDataids = [];
     }
 
     async dataParse(data) {
+        console.log("Parsing", data);
 
     }
 
@@ -37,6 +34,7 @@ class Sensor {
         this.path = path;
         this.port = port;
         this.autofetch = false;
+        this.currentlyRequesting = false;
         this.datapoints = [];
         this.parseDataPoints(datapoints);
     }
@@ -92,7 +90,7 @@ class Sensor {
                 break;
         }
 
-        if (this.autofetch) {
+        if (this.autofetch || this.currentlyRequesting) {
             setTimeout(this.fetch.bind(this), this.cooldown);
         }
     }
@@ -124,15 +122,21 @@ async function parseSensors() {
 parseSensors();
 
 export function setRequestedData(requestedData) {
+    console.log(requestedData);
     // reset first
     sensors.forEach((sensor) => {
+        sensor.currentlyRequesting = false;
         sensor.datapoints.forEach((datapoint) => {
-            datapoint.currentlyRequested = false;
+            let indx = requestedData.findIndex(e => e.id === datapoint.id);
+            if (indx >= 0) {
+                datapoint.currentlyRequested = true;
+                datapoint.requestedDataids = requestedData[indx].dataids;
+                sensor.currentlyRequesting = true;
+                requestedData.splice(indx, 1);
+                sensor.fetch();
+            } else {
+                datapoint.currentlyRequested = false;
+            }
         })
     })
-
-    requestedData.forEach((el) => {
-
-    })
-    console.log(requestedData);
 };
