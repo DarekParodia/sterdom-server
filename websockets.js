@@ -12,6 +12,7 @@ class Client {
         this.setupWebSocket();
         this.requestedData = [];
         this.dataToUpdate = [];
+        this.connectedAt = new Date().getTime();
     }
 
     async setupWebSocket() {

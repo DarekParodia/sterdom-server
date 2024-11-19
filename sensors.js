@@ -12,15 +12,22 @@ class DataPoint {
         this.dbttl = dbttl;
         this.currentlyRequested = false;
         this.requestedDataids = [];
+        this.dataToSend = {};
     }
 
     async dataParse(data) {
         console.log("Parsing", data);
+        this.dataToSend = { id: this.id, dataids: {} };
 
-    }
-
-    async update() {
-
+        this.requestedDataids.forEach((dataid) => {
+            switch (dataid) {
+                case "data":
+                    this.dataToSend.dataids.data = data;
+                    break;
+                case "time":
+                    this.dataToSend.dataids.time = new Date().getTime();
+            }
+        })
     }
 }
 
@@ -97,9 +104,12 @@ class Sensor {
 
     async dataParse(data) {
         console.log("parsing data: ", data);
+        let dataToSend = [];
         for (let i = 0; i < data.length; i++) {
-            this.datapoints[i].dataParse(data[i]);
+            await this.datapoints[i].dataParse(data[i]);
+            dataToSend.push(this.datapoints[i].dataToSend);
         }
+        websocketManager.updateData(dataToSend);
     }
 }
 
