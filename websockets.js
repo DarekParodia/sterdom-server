@@ -5,6 +5,7 @@ const { logger } = require('./logger.js');
 const clients = [];
 // datapoints --maps to-->> [Client, Client...] "client array"
 var dataToClientsMap = new Map();
+sensors.setSendDataCallback(updateData);
 
 class Client {
     constructor(ws) {

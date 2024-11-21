@@ -3,6 +3,7 @@ const sensorsFile = require('./sensors.json');
 const rest = require('./rest.js')
 const websocketManager = require('./websockets.js');
 const sensors = [];
+var sendDataCallback = function (data) { }
 
 class DataPoint {
     constructor(name, id, type, dbttl) {
@@ -109,7 +110,7 @@ class Sensor {
             await this.datapoints[i].dataParse(data[i]);
             dataToSend.push(this.datapoints[i].dataToSend);
         }
-        websocketManager.updateData(dataToSend);
+        sendDataCallback(dataToSend);
     }
 }
 
@@ -150,3 +151,7 @@ export function setRequestedData(requestedData) {
         })
     })
 };
+
+export function setSendDataCallback(callback) {
+    sendDataCallback = callback;
+}
