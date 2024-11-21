@@ -14,6 +14,8 @@ class DataPoint {
         this.currentlyRequested = false;
         this.requestedDataids = [];
         this.dataToSend = {};
+        this.currentData = null;
+        this.previousData = null;
     }
 
     async dataParse(data) {
@@ -24,11 +26,20 @@ class DataPoint {
             switch (dataid) {
                 case "data":
                     this.dataToSend.dataids.data = data;
+                    this.previousData = this.currentData;
+                    this.currentData = data;
                     break;
                 case "time":
                     this.dataToSend.dataids.time = new Date().getTime();
             }
         })
+    }
+
+    async hasChanged() {
+        if (this.currentData != this.previousData)
+            return true;
+        else
+            return false;
     }
 }
 
@@ -108,9 +119,11 @@ class Sensor {
         let dataToSend = [];
         for (let i = 0; i < data.length; i++) {
             await this.datapoints[i].dataParse(data[i]);
-            dataToSend.push(this.datapoints[i].dataToSend);
+            if (await this.datapoints[i].hasChanged())
+                dataToSend.push(this.datapoints[i].dataToSend);
         }
-        sendDataCallback(dataToSend);
+        if (dataToSend.length > 0)
+            sendDataCallback(dataToSend);
     }
 }
 
